@@ -1,16 +1,12 @@
-const MONGO_URI = process.env.MONGO_URI;
+const mongoose = require('mongoose');
 
-const mongoDb = mongoose.createConnection(MONGO_URI);
+// Placeholder for future database schemas and models
 
-mongoDb
-  .asPromise()
-  .then(() => {
-    console.log('MongoDB connected');
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-  });
+// Function to check database connection status
+const checkDbConnection = () => {
+  return mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected';
+};
 
 module.exports = {
-  mongoDb,
+  checkDbConnection
 };
