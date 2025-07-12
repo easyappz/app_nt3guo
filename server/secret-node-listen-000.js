@@ -17,14 +17,14 @@ module.exports = {
     return fakeAppListenedResponse;
   },
   listenStatic: ({ fakeApp, express }) => {
-    fakeApp.use(express.static(path.join(__dirname, 'public')));
-
     /**
      * Запускаем код из server.js
      * Запускаем между хостингов и get('*') чтобы все запросы необрабатываемые api возвращали фронтенд,
      * это нужно для spa.
      */
     require('./server.js');
+
+    fakeApp.use(express.static(path.join(__dirname, 'public')));
 
     // Для поддержки React Router - отдаем index.html на все остальные пути
     // Обработчик для всех необрабатываемых запросов
