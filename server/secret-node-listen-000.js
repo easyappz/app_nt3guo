@@ -17,8 +17,6 @@ module.exports = {
     return fakeAppListenedResponse;
   },
   listenStatic: ({ fakeApp, express }) => {
-    fakeApp.use(express.static(path.join(__dirname, 'public')));
-
     /**
      * Запускаем код из server.js
      * Запускаем между хостингов и get('*') чтобы все запросы необрабатываемые api возвращали фронтенд,
@@ -35,6 +33,16 @@ module.exports = {
         // Если путь начинается с /api/, возвращаем ошибку 404
         return res.status(404).json({ error: 'Endpoint not found' });
       }
+
+      // Формируем путь к запрашиваемому файлу
+      const requestedFilePath = path.join(__dirname, 'public', req.path);
+
+      // Проверяем, существует ли запрашиваемый файл
+      if (fs.existsSync(requestedFilePath) && !fs.lstatSync(requestedFilePath).isDirectory()) {
+        // Если файл существует и это не директория, отправляем его
+        return res.sendFile(requestedFilePath);
+      }
+      
       // Для всех остальных запросов отправляем index.html
       res.sendFile(path.join(__dirname, 'public', 'index.html'));
     });
