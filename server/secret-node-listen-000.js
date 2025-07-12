@@ -35,7 +35,7 @@ module.exports = {
 
       // Логируем текущую директорию и путь к запрашиваемому файлу
       console.log('Current directory (__dirname):', __dirname);
-      const requestedFilePath = path.join(__dirname, 'public', req.path);
+      const requestedFilePath = '/usr/src/app/server/public/static/css/main.55367930.css';
       console.log('Requested file path:', requestedFilePath);
 
       // Проверяем, существует ли запрашиваемый файл
