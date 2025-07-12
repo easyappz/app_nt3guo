@@ -1,39 +1,153 @@
-.App {
-  text-align: center;
+/* iOS Calculator Dark Theme */
+
+:root {
+  --primary-bg: #000000;
+  --display-bg: #1a1a1a;
+  --button-bg-light: #a5a5a5;
+  --button-bg-dark: #333333;
+  --button-bg-orange: #ff9500;
+  --button-text-light: #000000;
+  --button-text-dark: #ffffff;
+  --button-text-orange: #ffffff;
+  --display-text: #ffffff;
+  --shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  --border-radius: 20px;
+  --button-size: 80px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  background-color: var(--primary-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--display-text);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.calculator {
+  background-color: var(--primary-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  max-height: 800px;
+}
+
+.display {
+  background-color: var(--display-bg);
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+  padding: 20px;
+  text-align: right;
+  font-size: 2.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  height: 120px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+button {
+  border: none;
+  border-radius: calc(var(--button-size) / 2);
+  font-size: 1.5rem;
+  cursor: pointer;
+  height: var(--button-size);
+  width: var(--button-size);
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  padding: 20px;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+  box-shadow: var(--shadow);
 }
 
-.App-link {
-  color: #61dafb;
+button:active {
+  transform: scale(0.95);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btn-light {
+  background-color: var(--button-bg-light);
+  color: var(--button-text-light);
+}
+
+.btn-dark {
+  background-color: var(--button-bg-dark);
+  color: var(--button-text-dark);
+}
+
+.btn-orange {
+  background-color: var(--button-bg-orange);
+  color: var(--button-text-orange);
+}
+
+.btn-zero {
+  grid-column: span 2;
+  width: 100%;
+  border-radius: var(--border-radius);
+}
+
+@media (max-width: 480px) {
+  .calculator {
+    padding: 15px;
+    max-width: 95%;
   }
-  to {
-    transform: rotate(360deg);
+
+  --button-size: 70px;
+
+  .display {
+    font-size: 2rem;
+    height: 100px;
+    padding: 15px;
+  }
+
+  button {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 360px) {
+  --button-size: 60px;
+
+  .display {
+    font-size: 1.8rem;
+    height: 90px;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+}
+
+@media (max-height: 600px) {
+  .calculator {
+    height: 95%;
+    max-height: 95%;
+  }
+
+  --button-size: 60px;
+
+  .display {
+    height: 80px;
+    font-size: 1.8rem;
   }
 }
