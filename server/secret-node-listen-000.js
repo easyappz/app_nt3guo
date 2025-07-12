@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT;
 
 module.exports = {
-  listenServer: ({ fakeApp }) => {
+  listenServer: ({ fakeApp, express }) => {
     const fakeAppListenedResponse = fakeApp.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
