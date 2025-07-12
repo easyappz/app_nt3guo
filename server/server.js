@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const apiRoutes = require('./apiRoutes');
 
 const app = express();
@@ -20,14 +19,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/calculator_db', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('Connected to MongoDB successfully'))
-.catch((err) => console.error('MongoDB connection error:', err));
 
 // API Routes
 app.use('/api', apiRoutes);

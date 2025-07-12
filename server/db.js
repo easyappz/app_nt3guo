@@ -1,21 +1,6 @@
-const mongoose = require('mongoose');
+// This file is no longer in use as the database functionality has been removed.
+// It is kept for potential future use or as a placeholder.
 
-// Function to initialize database connection
-async function initDb() {
-  try {
-    await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/calculator_db', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Database connection initialized');
-  } catch (error) {
-    console.error('Database initialization error:', error);
-    throw error;
-  }
-}
-
-// Export the mongoose instance for schema/model definitions
 module.exports = {
-  mongoose,
-  initDb,
+  // No database initialization or connection needed
 };
