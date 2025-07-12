@@ -25,6 +25,19 @@ module.exports = {
      */
     require('./server.js');
 
+    // Normalize paths to remove trailing slashes for static files
+    fakeApp.use((req, res, next) => {
+      if (req.path.endsWith('/') && req.path.length > 1) {
+        const normalizedPath = req.path.slice(0, -1);
+        console.log(`Redirecting from ${req.path} to ${normalizedPath}`);
+        return res.redirect(301, normalizedPath);
+      }
+      next();
+    });
+
+    // Serve static files from the public directory
+    fakeApp.use(express.static(path.join(__dirname, 'public')));
+
     // Для поддержки React Router - отдаем index.html на все остальные пути
     // Обработчик для всех необрабатываемых запросов
     fakeApp.get('*', (req, res) => {
@@ -32,22 +45,8 @@ module.exports = {
         // Если путь начинается с /api/, возвращаем ошибку 404
         return res.status(404).json({ error: 'Endpoint not found' });
       }
-
-      // Логируем текущую директорию и путь к запрашиваемому файлу
-      console.log('Current directory (__dirname):', __dirname);
-      const requestedFilePath = '/usr/src/app/server/public/static/css/main.55367930.css';
-      console.log('Requested file path:', requestedFilePath);
-
-      // Проверяем, существует ли запрашиваемый файл
-      if (fs.existsSync(requestedFilePath) && !fs.lstatSync(requestedFilePath).isDirectory()) {
-        console.log('Serving requested file:', requestedFilePath);
-        return res.sendFile(requestedFilePath);
-      }
-
-      // Если файл не существует, отправляем index.html
-      const indexPath = path.join(__dirname, 'public', 'index.html');
-      console.log('Falling back to index.html:', indexPath);
-      res.sendFile(indexPath);
+      // Для всех остальных запросов отправляем index.html
+      res.sendFile(path.join(__dirname, 'public', 'index.html'));
     });
   },
 };
