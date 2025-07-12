@@ -79,6 +79,7 @@ const fakeApp = express();
 
 fakeAppListenedResponse.current = secretListeners.listenServer({
   fakeApp,
+  express,
 });
 
 secretListeners.listenStatic({
