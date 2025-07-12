@@ -14,11 +14,11 @@ module.exports = {
 
     fakeApp.use(bodyParser.json());
 
-    fakeApp.use(express.static(path.join(__dirname, 'public')));
-
     return fakeAppListenedResponse;
   },
   listenStatic: ({ fakeApp, express }) => {
+    fakeApp.use(express.static(path.join(__dirname, 'public')));
+
     /**
      * Запускаем код из server.js
      * Запускаем между хостингов и get('*') чтобы все запросы необрабатываемые api возвращали фронтенд,
@@ -29,6 +29,8 @@ module.exports = {
     // Для поддержки React Router - отдаем index.html на все остальные пути
     // Обработчик для всех необрабатываемых запросов
     fakeApp.get('*', (req, res) => {
+      console.log({ path: req.path, });
+      
       if (req.path.startsWith('/api/')) {
         // Если путь начинается с /api/, возвращаем ошибку 404
         return res.status(404).json({ error: 'Endpoint not found' });
