@@ -25,12 +25,11 @@ module.exports = {
      */
     require('./server.js');
 
-    // Normalize paths to remove trailing slashes for static files
+    // Normalize paths by removing trailing slashes without redirect
     fakeApp.use((req, res, next) => {
       if (req.path.endsWith('/') && req.path.length > 1) {
-        const normalizedPath = req.path.slice(0, -1);
-        console.log(`Redirecting from ${req.path} to ${normalizedPath}`);
-        return res.redirect(301, normalizedPath);
+        console.log(`Normalizing path from ${req.path} to ${req.path.slice(0, -1)}`);
+        req.path = req.path.slice(0, -1);
       }
       next();
     });
