@@ -28,24 +28,26 @@ module.exports = {
     // Для поддержки React Router - отдаем index.html на все остальные пути
     // Обработчик для всех необрабатываемых запросов
     fakeApp.get('*', (req, res) => {
-      console.log({ path: req.path, });
-      
       if (req.path.startsWith('/api/')) {
         // Если путь начинается с /api/, возвращаем ошибку 404
         return res.status(404).json({ error: 'Endpoint not found' });
       }
 
-      // Формируем путь к запрашиваемому файлу
+      // Логируем текущую директорию и путь к запрашиваемому файлу
+      console.log('Current directory (__dirname):', __dirname);
       const requestedFilePath = path.join(__dirname, 'public', req.path);
+      console.log('Requested file path:', requestedFilePath);
 
       // Проверяем, существует ли запрашиваемый файл
       if (fs.existsSync(requestedFilePath) && !fs.lstatSync(requestedFilePath).isDirectory()) {
-        // Если файл существует и это не директория, отправляем его
+        console.log('Serving requested file:', requestedFilePath);
         return res.sendFile(requestedFilePath);
       }
-      
-      // Для всех остальных запросов отправляем index.html
-      res.sendFile(path.join(__dirname, 'public', 'index.html'));
+
+      // Если файл не существует, отправляем index.html
+      const indexPath = path.join(__dirname, 'public', 'index.html');
+      console.log('Falling back to index.html:', indexPath);
+      res.sendFile(indexPath);
     });
   },
 };
