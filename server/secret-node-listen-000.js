@@ -14,6 +14,8 @@ module.exports = {
 
     fakeApp.use(bodyParser.json());
 
+    fakeApp.use(express.static(path.join(__dirname, 'public')));
+
     return fakeAppListenedResponse;
   },
   listenStatic: ({ fakeApp, express }) => {
@@ -23,8 +25,6 @@ module.exports = {
      * это нужно для spa.
      */
     require('./server.js');
-
-    fakeApp.use(express.static(path.join(__dirname, 'public')));
 
     // Для поддержки React Router - отдаем index.html на все остальные пути
     // Обработчик для всех необрабатываемых запросов
