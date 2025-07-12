@@ -18,24 +18,15 @@ module.exports = {
     return fakeAppListenedResponse;
   },
   listenStatic: ({ fakeApp, express }) => {
+    // Serve static files from the public directory
+    fakeApp.use(express.static(path.join(__dirname, 'public')));
+
     /**
      * Запускаем код из server.js
      * Запускаем между хостингов и get('*') чтобы все запросы необрабатываемые api возвращали фронтенд,
      * это нужно для spa.
      */
     require('./server.js');
-
-    // Normalize paths by removing trailing slashes without redirect
-    fakeApp.use((req, res, next) => {
-      if (req.path.endsWith('/') && req.path.length > 1) {
-        console.log(`Normalizing path from ${req.path} to ${req.path.slice(0, -1)}`);
-        req.path = req.path.slice(0, -1);
-      }
-      next();
-    });
-
-    // Serve static files from the public directory
-    fakeApp.use(express.static(path.join(__dirname, 'public')));
 
     // Для поддержки React Router - отдаем index.html на все остальные пути
     // Обработчик для всех необрабатываемых запросов
